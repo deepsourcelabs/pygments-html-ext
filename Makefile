@@ -1,4 +1,4 @@
 test:
-	pipenv run pytest --cov
+	pipenv run pytest
 
 .DEFAULT_GOAL := test

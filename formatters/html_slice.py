@@ -25,19 +25,22 @@ class HtmlSliceFormatter(HtmlFormatter):
             # if begin_line is set, set `linenostart` to match it
             self.linenostart = self.begin_line
 
+            # since we've changed the beginning of this file, we'll need to
+            # offset the hl_lines, if available, appropriately.
+            hl_line_offset = self.begin_line - 1
+            self.hl_lines = [i - hl_line_offset for i in self.hl_lines or []]
+        else:
+            self.begin_line = None
+
         end_line = kwargs.get('end_line')
         self.end_line = int(end_line) if end_line else None
 
         # validate sanity of begin_line and end_line
-        if self.end_line < self.begin_line:
+        if ((self.begin_line and self.end_line) and
+                (self.end_line < self.begin_line)):
             raise ValueError(
                 "Value for `end_line` must be less than or equal to `begin_line`"
             )
-
-        # since we've changed the beginning of this file, we'll need to
-        # offset the hl_lines, if available, appropriately.
-        hl_line_offset = self.begin_line - 1
-        self.hl_lines = [i - hl_line_offset for i in self.hl_lines or []]
 
     def _format_lines(self, tokensource, *_, **__):
         """
