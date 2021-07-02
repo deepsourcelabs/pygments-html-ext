@@ -15,3 +15,7 @@ enabled = true
   [analyzers.meta]
   max_line_length = 90
   skip_doc_coverage = ["module", "magic", "init"]
+
+[[analyzers]]
+name = "secrets"
+enabled = true
